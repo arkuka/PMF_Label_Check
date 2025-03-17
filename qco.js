@@ -356,6 +356,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     renderInputFields();
+
+    isSubmitEnabled = allFieldsValid(); // 调用独立的 allFieldsValid 函数
+    submitButton.disabled = !isSubmitEnabled;
   });
 
   // 模态取消按钮
