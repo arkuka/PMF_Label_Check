@@ -59,8 +59,14 @@ const checkSubmitAvailability = (isMatch) => {
 
     const fieldValue = fields[field.toLowerCase()] || "";
     const correctCode = productRow[fieldIndex];
+
+    // 检查 fieldValue 的前五位是否为 '01193'
+    let processedScannedCode = fieldValue.trim();
+    if (processedScannedCode.startsWith('01193')) {
+        processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
+    }
     
-    return fieldValue.trim() === correctCode;
+    return processedScannedCode.trim() === correctCode;
   });
 
   isSubmitEnabled = allFieldsValid;  
