@@ -39,6 +39,31 @@ const validateScan = (field, scannedCode) => {
     checkSubmitAvailability(isMatch);
 };
 
+// 提取 allFieldsValid 为独立函数
+const allFieldsValid = () => {
+  if (!productName || !configData) return false;
+
+  const productRow = configData.find((row) => row[0] === productName);
+  if (!productRow) return false;
+
+  return headers.slice(1).every((field) => {
+    const fieldIndex = headers.indexOf(field);
+    if (isFieldDisabled(field)) return true;
+
+    const fieldValue = fields[field.toLowerCase()] || "";
+    const correctCode = productRow[fieldIndex];
+
+    // 检查 fieldValue 的前五位是否为 '01193'
+    let processedScannedCode = fieldValue.trim();
+    if (processedScannedCode.startsWith('01193')) {
+      processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
+    }
+
+    return processedScannedCode.trim() === correctCode;
+  });
+};
+
+
 const checkSubmitAvailability = (isMatch) => {
   if (!productName || !configData || !isMatch) {
     isSubmitEnabled = false;
@@ -53,24 +78,8 @@ const checkSubmitAvailability = (isMatch) => {
     return;
   }
 
-  const allFieldsValid = headers.slice(1).every((field) => {
-    const fieldIndex = headers.indexOf(field);
-    if (isFieldDisabled(field)) return true;
-
-    const fieldValue = fields[field.toLowerCase()] || "";
-    const correctCode = productRow[fieldIndex];
-
-    // 检查 fieldValue 的前五位是否为 '01193'
-    let processedScannedCode = fieldValue.trim();
-    if (processedScannedCode.startsWith('01193')) {
-        processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
-    }
-    
-    return processedScannedCode.trim() === correctCode;
-  });
-
-  isSubmitEnabled = allFieldsValid;  
-  submitButton.disabled = !isSubmitEnabled;  
+  isSubmitEnabled = allFieldsValid(); // 调用独立的 allFieldsValid 函数
+  submitButton.disabled = !isSubmitEnabled;
 };
 
 const isFieldDisabled = (field) => {
