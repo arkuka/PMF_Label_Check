@@ -23,13 +23,20 @@ let currentField = "";  // 用于记录当前输入的字段
 const validateScan = (field, scannedCode) => {
     if (!configData || !productName) return;
   
-  const productRow = configData.find((row) => row[0] === productName);
-  if (!productRow) return;
+    const productRow = configData.find((row) => row[0] === productName);
+    if (!productRow) return;
   
-  const fieldIndex = headers.indexOf(field);
-  const correctCode = productRow[fieldIndex];
-  const isMatch = scannedCode.trim() === correctCode;  
-  checkSubmitAvailability(isMatch);
+    const fieldIndex = headers.indexOf(field);
+    const correctCode = productRow[fieldIndex];
+  
+    // 检查 scannedCode 的前五位是否为 '01193'
+    let processedScannedCode = scannedCode.trim();
+    if (processedScannedCode.startsWith('01193')) {
+        processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
+    }
+  
+    const isMatch = processedScannedCode === correctCode.trim();
+    checkSubmitAvailability(isMatch);
 };
 
 const checkSubmitAvailability = (isMatch) => {
