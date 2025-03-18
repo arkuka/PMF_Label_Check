@@ -7,6 +7,7 @@ let fields = {
   bottomLabel: "",
   boxLabel: "",
   palletLabel: "",
+  watermark: "",
 };
 let headers = [];
 let productNames = [];
@@ -146,6 +147,7 @@ const updateFieldAvailability = (selectedProductName) => {
     bottomLabel: productRow[headers.indexOf("bottomLabel")] ? fields.bottomLabel : "",
     boxLabel: productRow[headers.indexOf("boxLabel")] ? fields.boxLabel : "",
     palletLabel: productRow[headers.indexOf("palletLabel")] ? fields.palletLabel : "",
+    waterMark: productRow[headers.indexOf("waterMark")] ? fields.waterMark : "",
   };
 };
 
@@ -157,6 +159,7 @@ const resetForm = () => {
     bottomLabel: "",
     boxLabel: "",
     palletLabel: "",
+    waterMark: "",
   };
   isSubmitEnabled = false;
   renderInputFields();  
@@ -382,11 +385,13 @@ document.addEventListener("DOMContentLoaded", () => {
   submitButton.addEventListener("click", async () => {
     if (!productName || !configData) return;
 
+    const offset = 11; // 东11区的偏移量
+
     const productRow = configData.find((row) => row[0] === productName);
     const submittedData = {
       productName,
       barcodes: headers.slice(1).map((header) => fields[header.toLowerCase()] || ""),
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toLocaleString("en-US", { timeZone: "Australia/Sydney" }),
     };
 
     try {
