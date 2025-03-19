@@ -446,14 +446,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // 验证 HCODE 格式
     const hcodeRegex = /^H\d{4}$/; // H 开头，后跟 4 位数字
     if (!hcodeRegex.test(hcode)) {
-      alert("Invalid HCODE format. Please enter in the format HDDMM (e.g., H1903).");
+      modal2Message.textContent = "Invalid HCODE format. Please enter in the format HDDMM (e.g., H1903).";
+      modal2Message.style.display = "block";
       return;
     }
 
     // 验证 UBD 格式
     const ubdRegex = /^\d{2} [A-Z]{3}$/; // DD MMM 格式
     if (!ubdRegex.test(ubd)) {
-      alert("Invalid UBD format. Please enter in the format DD MMM (e.g., 19 MAY).");
+      modal2Message.textContent = "Invalid UBD format. Please enter in the format DD MMM (e.g., 19 MAY).";
+      modal2Message.style.display = "block";
       return;
     }
 
