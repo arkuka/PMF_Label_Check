@@ -458,7 +458,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 获取产品的保质期天数（假设保质期天数为 30 天）
-    const shelfLifeDays = 30; // 这里需要根据实际产品获取保质期天数
+    // const shelfLifeDays = 30; // 这里需要根据实际产品获取保质期天数
 
     // 计算 HCODE 到 UBD 的天数
     const hcodeDate = parseHCODE(hcode); // 解析 HCODE 为日期
