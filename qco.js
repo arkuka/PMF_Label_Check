@@ -344,9 +344,12 @@ document.addEventListener("DOMContentLoaded", () => {
       // 显示版本号
       const versionInfoElement = document.getElementById("versionInfo");
       if (versionInfoElement && versionInfo) {
-        versionInfoElement.innerHTML  = `ver:${versionInfo}`;
+        versionInfoElement.innherHTML = `ver: ${versionInfo}`;
       }
-  };
+    } catch (error) {
+      console.error("Failed to load or parse the Excel file:", error);
+    }
+};
 
   // 模态确认按钮
   modalConfirmButton.addEventListener("click", () => {
