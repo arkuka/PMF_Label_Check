@@ -457,6 +457,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // 检查天数差是否等于保质期天数
     if (daysDifference !== shelfLifeDays) {
       // 如果不等于，显示 modal3 提示框
+      const modal2 = document.getElementById("modal2");
+      modal2.style.display = "none"; // 临时关闭 modal2
       showModal3(`The difference between HCODE and UBD is ${daysDifference} days, which does not match the shelf life of ${shelfLifeDays} days. Please confirm HCODE and UBD.`);
       return;
     }
