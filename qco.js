@@ -420,6 +420,15 @@ document.addEventListener("DOMContentLoaded", () => {
   //   }
   // });
 
+  // 获取 Close 按钮
+    const modal2CloseButton = document.getElementById("modal2CloseButton");
+
+    // 添加点击事件
+    modal2CloseButton.addEventListener("click", () => {
+      const modal2 = document.getElementById("modal2");
+      modal2.style.display = "none"; // 隐藏 modal2
+    });
+
       // 提交按钮点击事件
     submitButton.addEventListener("click", () => {
       if (!productName || !configData) return;
