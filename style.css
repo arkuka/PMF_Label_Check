@@ -223,3 +223,23 @@
   background-color: #f44336;
   color: white;
 }
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#modal2 {
+  z-index: 1000; /* modal2 的层级 */
+}
+
+#modal3 {
+  z-index: 1100; /* modal3 的层级高于 modal2 */
+}
