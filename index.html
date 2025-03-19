@@ -36,24 +36,33 @@
         <img id="modalImage" src="" alt="Modal Image" style="display: none; max-width: 100%; height: auto; margin-bottom: 20px;">
         <!-- 消息区域 -->
         <h2 id="modalMessage"></h2>
-        <!-- 文本框区域 -->
-        <div class="input-group" id="div_lineNumber" style="display: none;">
-          <label for="lineNumber">Line Number:</label>
-          <input type="text" id="lineNumber" placeholder="Line Number">
-        </div>
-        <div class="input-group" id="div_palletNumber" style="display: none;">
-          <label for="palletNumber">Pallet Number:</label>
-          <input type="text" id="palletNumber" placeholder="Pallet Number">
-        </div>
-        <div class="input-group" id="div_boxCount" style="display: none;">
-          <label for="boxCount">Qty of Cartons on the pallet:</label>
-          <input type="text" id="boxCount" placeholder="Qty of Cartons on the pallet">
-        </div>
+        
         
         <!-- 按钮区域 -->
         <button id="modalConfirmButton" class="modal-button yes" style="display: none;">Yes</button>
         <button id="modalCancelButton" class="modal-button cancel" style="display: none;">No</button>
         <button id="modalOkButton" class="modal-button ok" style="display: none;">OK</button>
+      </div>
+    </div>
+
+    <div id="modal2" class="modal" style="display: none;">
+      <div class="modal-content">
+        <!-- 文本框区域 -->
+        <div class="input-group" id="div_lineNumber">
+          <label for="lineNumber">Line Number:</label>
+          <input type="text" id="lineNumber" placeholder="Line Number">
+        </div>
+        <div class="input-group" id="div_palletNumber">
+          <label for="palletNumber">Pallet Number:</label>
+          <input type="text" id="palletNumber" placeholder="Pallet Number">
+        </div>
+        <div class="input-group" id="div_boxCount">
+          <label for="boxCount">Qty of Cartons on the pallet:</label>
+          <input type="text" id="boxCount" placeholder="Qty of Cartons on the pallet">
+        </div>
+    
+        <!-- 提交按钮 -->
+        <button id="modalSubmitButton" class="modal-button submit">Submit</button>
       </div>
     </div>
 

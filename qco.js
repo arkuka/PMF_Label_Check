@@ -395,30 +395,83 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // 提交按钮
-  submitButton.addEventListener("click", async () => {
-    if (!productName || !configData) return;
+  // submitButton.addEventListener("click", async () => {
+  //   if (!productName || !configData) return;
 
-    const offset = 11; // 东11区的偏移量
+  //   const offset = 11; // 东11区的偏移量
 
-    const productRow = configData.find((row) => row[0] === productName);
-    const submittedData = {
-      productName,
-      barcodes: headers.slice(1).map((header) => fields[header.toLowerCase()] || ""),
-      timestamp: new Date().toLocaleString("en-US", { timeZone: "Australia/Sydney" }),
-    };
+  //   const productRow = configData.find((row) => row[0] === productName);
+  //   const submittedData = {
+  //     productName,
+  //     barcodes: headers.slice(1).map((header) => fields[header.toLowerCase()] || ""),
+  //     timestamp: new Date().toLocaleString("en-US", { timeZone: "Australia/Sydney" }),
+  //   };
 
-    try {
-      await fetch("/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(submittedData),
-      });
+  //   try {
+  //     await fetch("/submit", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(submittedData),
+  //     });
 
-      resetForm();
-    } catch (error) {
-      console.error("Error submitting data:", error);
-    }
-  });
+  //     resetForm();
+  //   } catch (error) {
+  //     console.error("Error submitting data:", error);
+  //   }
+  // });
+
+      // 提交按钮点击事件
+    submitButton.addEventListener("click", () => {
+      if (!productName || !configData) return;
+
+      // 显示 modal2 模态窗口
+      const modal2 = document.getElementById("modal2");
+      modal2.style.display = "flex";
+    });
+
+    // modal2 提交按钮点击事件
+    const modalSubmitButton = document.getElementById("modalSubmitButton");
+    modalSubmitButton.addEventListener("click", async () => {
+      const lineNumber = document.getElementById("lineNumber").value;
+      const palletNumber = document.getElementById("palletNumber").value;
+      const boxCount = document.getElementById("boxCount").value;
+
+      if (!lineNumber || !palletNumber || !boxCount) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      const offset = 11; // 东11区的偏移量
+
+      const productRow = configData.find((row) => row[0] === productName);
+      const submittedData = {
+        productName,
+        barcodes: headers.slice(1).map((header) => fields[header.toLowerCase()] || ""),
+        timestamp: new Date().toLocaleString("en-US", { timeZone: "Australia/Sydney" }),
+        lineNumber,
+        palletNumber,
+        boxCount,
+      };
+
+      try {
+        await fetch("/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(submittedData),
+        });
+
+        // 关闭 modal2
+        const modal2 = document.getElementById("modal2");
+        modal2.style.display = "none";
+
+        // 重置表单
+        resetForm();
+      } catch (error) {
+        console.error("Error submitting data:", error);
+      }
+    });
+
+
 
   // 初始化
   loadExcelFile();
