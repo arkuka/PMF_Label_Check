@@ -332,7 +332,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // 更新 UI
       document.getElementById("productNameLabel").textContent = productNameLabel;
       productNameSelect.innerHTML = `<option value="">Select Product</option>` +
-        productNames.map((name) => `<option value="${name}">${name}</option>`).join("");
+      productNames.map((name) => `<option value="${name}">${name}</option>`).join("");
 
       renderInputFields();
 
@@ -340,6 +340,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const sheet2 = workbook.Sheets[workbook.SheetNames[1]];
       const versionData = XLSX.utils.sheet_to_json(sheet2, { header: 1 });
       const versionInfo = versionData[1][0]; // 获取第二行第一列的值（A2）      
+      const currentVer = "ver:" + versionInfo
       } catch (error) {
         console.error("Failed to load or parse the Excel file:", error);
       }
@@ -347,7 +348,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // 显示版本号
       const versionInfoElement = document.getElementById("versionInfo");
       if (versionInfoElement && versionInfo) {
-        versionInfoElement.innerHTML = versionInfo
+        versionInfoElement.innerHTML = currentVer
       }
   };
 
