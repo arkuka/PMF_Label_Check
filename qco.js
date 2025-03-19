@@ -347,7 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // 显示版本号
       const versionInfoElement = document.getElementById("versionInfo");
       if (versionInfoElement && versionInfo) {
-        versionInfoElement.innerHTML = "ver:"+versionInfo
+        versionInfoElement.innerHTML = versionInfo
       }
   };
 
