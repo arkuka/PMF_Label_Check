@@ -351,12 +351,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
   };
 
-  // Confirm 按钮点击事件
-  document.getElementById("modal3ConfirmButton").addEventListener("click", () => {
-    clearInterval(interval);
-    modal3.style.display = "none";
-  });
-
   // 模态确认按钮
   modalConfirmButton.addEventListener("click", () => {
     productName = possibleProduct;
@@ -454,11 +448,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const ubdDate = parseUBD(ubd); // 解析 UBD 为日期
     const daysDifference = Math.floor((ubdDate - hcodeDate) / (1000 * 60 * 60 * 24)); // 计算天数差
 
+    // 获取 modal2 的消息区域
+    const modal2Message = document.getElementById("modal2Message");
+
     // 检查天数差是否等于保质期天数
     if (daysDifference !== shelfLifeDays) {
-
-      alert(`The difference between HCODE and UBD is ${daysDifference} days, which does not match the shelf life of ${shelfLifeDays} days. Please confirm HCODE and UBD.`);
+      // 显示提示信息
+      modal2Message.textContent = `The difference between HCODE and UBD is ${daysDifference} days, which does not match the shelf life of ${shelfLifeDays} days. Please confirm HCODE and UBD.`;
+      modal2Message.style.display = "block";
       return;
+    } else {
+      // 如果匹配，隐藏提示信息
+      modal2Message.style.display = "none";
     }
 
     // 如果验证通过，提交数据
