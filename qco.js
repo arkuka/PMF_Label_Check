@@ -221,6 +221,8 @@ const showModalWithButtons = (message, showConfirmCancel = true, imageUrl = "") 
 
 // 全局 handleInputChange 函数
 const handleInputChange = (field, value, event) => {
+     value = value.toUpperCase()
+     value = value.trim()
     if (event.key === "Enter") {
       fields[field] = value;
     
