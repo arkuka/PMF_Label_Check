@@ -47,6 +47,8 @@
 
     <div id="modal2" class="modal">
       <div class="modal-content">
+        <!-- 文本显示区域 -->
+        <div id="modal2Message" class="modal-message" style="display: none; color: red; margin-bottom: 15px;"></div>
         <!-- 文本框区域 -->
         <div class="input-group">
           <label for="lineNumber">Line Number:</label>
@@ -73,19 +75,7 @@
         <button id="modalSubmitButton" class="modal-button submit">Submit</button>
         <!-- 关闭按钮 -->
         <button id="modal2CloseButton" class="modal-button cancel">Close</button>
-    </div>
-
-    <div id="modal3" class="modal">
-      <div class="modal-content">
-        <!-- 消息区域 -->
-        <h2 id="modal3Message"></h2>
-        <!-- 按钮区域 -->
-        <button id="modal3ConfirmButton" class="modal-button submit">Confirm</button>
-      </div>
-    </div>
-
-
-    
+    </div>    
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>

@@ -456,10 +456,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 检查天数差是否等于保质期天数
     if (daysDifference !== shelfLifeDays) {
-      // 如果不等于，显示 modal3 提示框
-      const modal2 = document.getElementById("modal2");
-      modal2.style.display = "none"; // 临时关闭 modal2
-      showModal3(`The difference between HCODE and UBD is ${daysDifference} days, which does not match the shelf life of ${shelfLifeDays} days. Please confirm HCODE and UBD.`);
+
+      msgbox(`The difference between HCODE and UBD is ${daysDifference} days, which does not match the shelf life of ${shelfLifeDays} days. Please confirm HCODE and UBD.`);
       return;
     }
 
@@ -554,15 +552,3 @@ document.addEventListener("DOMContentLoaded", () => {
   // 初始化
   loadExcelFile();
 });
-
-// 显示 modal3 提示框
-function showModal3(message) {
-  const modal3 = document.getElementById("modal3");
-  const modal3Message = document.getElementById("modal3Message");
-
-  // 设置提示信息
-  modal3Message.textContent = message;
-
-  // 显示 modal3
-  modal3.style.display = "flex";
-}
