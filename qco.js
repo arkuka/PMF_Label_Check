@@ -467,6 +467,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const ubdDate = parseUBD(ubd); // 解析 UBD 为日期
     const daysDifference = Math.floor((ubdDate - hcodeDate) / (1000 * 60 * 60 * 24)); // 计算天数差
 
+    // 如果不是整数，转换为整数
+    if (!Number.isInteger(daysDifference)) {
+      daysDifference = parseInt(daysDifference, 10);
+      console.warn("daysDifference was not an integer, converted to:", daysDifference);
+    }
+    if (!Number.isInteger(shelfLifeDays)) {
+      shelfLifeDays = parseInt(shelfLifeDays, 10);
+      console.warn("shelfLifeDays was not an integer, converted to:", shelfLifeDays);
+    }
+
     // 检查天数差是否等于保质期天数
     if (daysDifference !== shelfLifeDays) {
       // 显示提示信息
