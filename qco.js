@@ -9,6 +9,7 @@ let fields = {
   palletLabel: "",
   watermark: "",
 };
+let shelfLifeDays = 0; // 保质期天数
 let headers = [];
 let productNames = [];
 let productNameLabel = "";
@@ -149,6 +150,8 @@ const updateFieldAvailability = (selectedProductName) => {
     palletLabel: productRow[headers.indexOf("palletLabel")] ? fields.palletLabel : "",
     waterMark: productRow[headers.indexOf("waterMark")] ? fields.waterMark : "",
   };
+
+  shelfLifeDays = productRow[7] || 0;  // shelfLifeDays 为第 8 列
 };
 
 const resetForm = () => {
@@ -161,6 +164,9 @@ const resetForm = () => {
     palletLabel: "",
     waterMark: "",
   };
+
+  shelfLifeDays = 0; // 保质期天数
+
   isSubmitEnabled = false;
   renderInputFields();  
   submitButton.disabled = !isSubmitEnabled;
