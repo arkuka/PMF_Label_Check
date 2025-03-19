@@ -346,7 +346,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const versionInfoElement = document.getElementById("versionInfo");
       if (versionInfoElement && versionInfo) {
         versionInfoElement.innherHTML = "ver: ${versionInfo}";
-        console.log(""ver: " = ","ver: ${versionInfo}");
+        console.log("ver:  = ",versionInfoElement.innherHTML);
       }
     } catch (error) {
       console.error("Failed to load or parse the Excel file:", error);
