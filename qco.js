@@ -335,9 +335,20 @@ document.addEventListener("DOMContentLoaded", () => {
         productNames.map((name) => `<option value="${name}">${name}</option>`).join("");
 
       renderInputFields();
-    } catch (error) {
-      console.error("Failed to load or parse the Excel file:", error);
-    }
+
+      // 读取第二个工作表（版本信息）
+      const sheet2 = workbook.Sheets[workbook.SheetNames[1]];
+      const versionData = XLSX.utils.sheet_to_json(sheet2, { header: 1 });
+      const versionInfo = versionData[1][0]; // 获取第二行第一列的值（A2）
+      } catch (error) {
+        console.error("Failed to load or parse the Excel file:", error);
+      }
+
+      // 显示版本号
+      const versionInfoElement = document.getElementById("versionInfo");
+      if (versionInfoElement && versionInfo) {
+        versionInfoElement.textContent = `Version: ${versionInfo}`;
+      }
   };
 
   // 模态确认按钮
