@@ -492,18 +492,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 显示 modal3 提示框
-  function showModal3(message) {
-    const modal3 = document.getElementById("modal3");
-    const modal3Message = document.getElementById("modal3Message");
-
-    // 设置提示信息
-    modal3Message.textContent = message;
-
-    // 显示 modal3
-    modal3.style.display = "flex";
-  }
-
   // 解析 HCODE 为日期
   function parseHCODE(hcode) {
     const day = parseInt(hcode.slice(1, 3), 10); // 提取 DD
@@ -564,3 +552,15 @@ document.addEventListener("DOMContentLoaded", () => {
   // 初始化
   loadExcelFile();
 });
+
+// 显示 modal3 提示框
+function showModal3(message) {
+  const modal3 = document.getElementById("modal3");
+  const modal3Message = document.getElementById("modal3Message");
+
+  // 设置提示信息
+  modal3Message.textContent = message;
+
+  // 显示 modal3
+  modal3.style.display = "flex";
+}
