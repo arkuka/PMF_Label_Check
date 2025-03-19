@@ -292,6 +292,16 @@ document.getElementById('resetButton').addEventListener('click', function() {
   resetForm()
 });
 
+const resetModal2Inputs = () => {
+  document.getElementById("lineNumber").value = "";
+  document.getElementById("palletNumber").value = "";
+  document.getElementById("boxCount").value = "";
+  document.getElementById("hcode").value = "";
+  document.getElementById("ubd").value = "";
+  const modal2Message = document.getElementById("modal2Message");
+  if (modal2Message) modal2Message.style.display = "none"; // 同时隐藏提示信息
+};
+
 // DOMContentLoaded 事件
 document.addEventListener("DOMContentLoaded", () => {
   const productNameSelect = document.getElementById("productNameSelect");
@@ -399,6 +409,7 @@ document.addEventListener("DOMContentLoaded", () => {
   modal2CloseButton.addEventListener("click", () => {
     const modal2 = document.getElementById("modal2");
     modal2.style.display = "none"; // 隐藏 modal2
+    resetModal2Inputs(); // 重置 modal2 中的输入框
   });
 
   // 提交按钮点击事件
@@ -485,6 +496,9 @@ document.addEventListener("DOMContentLoaded", () => {
       // 关闭 modal2
       const modal2 = document.getElementById("modal2");
       modal2.style.display = "none";
+
+      // 提交成功后重置Modal2的文本框
+      resetModal2Inputs(); 
 
       // 重置表单
       resetForm();
