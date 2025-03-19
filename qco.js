@@ -339,9 +339,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // 读取第二个工作表（版本信息）
       const sheet2 = workbook.Sheets[workbook.SheetNames[1]];
       const versionData = XLSX.utils.sheet_to_json(sheet2, { header: 1 });
-      const versionInfo = versionData[1][0]; // 获取第二行第一列的值（A2）
-      versionInfo = "ver:"+versionInfo
-      console.log(versionInfo)
+      const versionInfo = versionData[1][0]; // 获取第二行第一列的值（A2）      
       } catch (error) {
         console.error("Failed to load or parse the Excel file:", error);
       }
@@ -349,8 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // 显示版本号
       const versionInfoElement = document.getElementById("versionInfo");
       if (versionInfoElement && versionInfo) {
-        versionInfoElement.innerHTML = "ver: 0.3.19.1";        
-        console.log("version is: ", versionInfoElement.textContent);
+        versionInfoElement.innerHTML = "ver:"+versionInfo
       }
   };
 
