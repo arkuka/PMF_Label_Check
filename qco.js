@@ -340,17 +340,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const sheet2 = workbook.Sheets[workbook.SheetNames[1]];
       const versionData = XLSX.utils.sheet_to_json(sheet2, { header: 1 });
       const versionInfo = versionData[1][0]; // 获取第二行第一列的值（A2）
-      console.log ("versionInfo: ", versionInfo);
-      const currentVer = "ver:"+versionInfo
   
       // 显示版本号
       const versionInfoElement = document.getElementById("versionInfo");
-
-      console.log("versionInfoElement=",versionInfoElement)
-      
       if (versionInfoElement) {
-        versionInfoElement.textContent  = currentVer;
-        console.log("ver:  = ",versionInfoElement.textContent );
+        versionInfoElement.textContent = "ver:"+versionInfo;        
       }
     } catch (error) {
       console.error("Failed to load or parse the Excel file:", error);
