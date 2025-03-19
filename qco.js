@@ -348,8 +348,8 @@ document.addEventListener("DOMContentLoaded", () => {
       // 显示版本号
       const versionInfoElement = document.getElementById("versionInfo");
       if (versionInfoElement && versionInfo) {
-        versionInfoElement.textContent = `Version: ${versionInfo}`;
-        console.log("version is: ", versionInfoElement.textContent)
+        versionInfoElement.textContent = `ver: ${versionInfo}`;
+        console.log("version is: ", versionInfoElement.textContent);
       }
   };
 
