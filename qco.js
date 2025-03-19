@@ -341,14 +341,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const versionData = XLSX.utils.sheet_to_json(sheet2, { header: 1 });
       const versionInfo = versionData[1][0]; // 获取第二行第一列的值（A2）
       console.log ("versionInfo: ", versionInfo);
+      const currentVer = "ver:"+versionInfo
   
       // 显示版本号
       const versionInfoElement = document.getElementById("versionInfo");
 
       console.log("versionInfoElement=",versionInfoElement)
       
-      if (versionInfoElement && versionInfo) {
-        versionInfoElement.innherHTML = "ver: ${versionInfo}";
+      if (versionInfoElement) {
+        versionInfoElement.innherHTML = currentVer;
         console.log("ver:  = ",versionInfoElement.innherHTML);
       }
     } catch (error) {
