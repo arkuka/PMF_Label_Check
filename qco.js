@@ -435,14 +435,45 @@ document.addEventListener("DOMContentLoaded", () => {
       const lineNumber = document.getElementById("lineNumber").value;
       const palletNumber = document.getElementById("palletNumber").value;
       const boxCount = document.getElementById("boxCount").value;
+      const hcode = document.getElementById("hcode").value;
+      const ubd = document.getElementById("ubd").value;
 
-      if (!lineNumber || !palletNumber || !boxCount) {
+      // 检查所有字段是否已填写
+      if (!lineNumber || !palletNumber || !boxCount || !hcode || !ubd) {
         alert("Please fill in all fields.");
         return;
       }
 
-      const offset = 11; // 东11区的偏移量
+      // 验证 HCODE 格式
+      const hcodeRegex = /^H\d{4}$/; // H 开头，后跟 4 位数字
+      if (!hcodeRegex.test(hcode)) {
+        alert("Invalid HCODE format. Please enter in the format HDDMM (e.g., H1903).");
+        return;
+      }
 
+      // 验证 UBD 格式
+      const ubdRegex = /^\d{2} [A-Z]{3}$/; // DD MMM 格式
+      if (!ubdRegex.test(ubd)) {
+        alert("Invalid UBD format. Please enter in the format DD MMM (e.g., 19 MAY).");
+        return;
+      }
+
+      // 获取产品的保质期天数（假设保质期天数为 30 天）
+      const shelfLifeDays = 30; // 这里需要根据实际产品获取保质期天数
+
+      // 计算 HCODE 到 UBD 的天数
+      const hcodeDate = parseHCODE(hcode); // 解析 HCODE 为日期
+      const ubdDate = parseUBD(ubd); // 解析 UBD 为日期
+      const daysDifference = Math.floor((ubdDate - hcodeDate) / (1000 * 60 * 60 * 24)); // 计算天数差
+
+      // 检查天数差是否等于保质期天数
+      if (daysDifference !== shelfLifeDays) {
+        // 如果不等于，显示提示框
+        showConfirmationModal(`The difference between HCODE and UBD is ${daysDifference} days, which does not match the shelf life of ${shelfLifeDays} days. Please confirm HCODE and UBD.`);
+        return;
+      }
+
+      // 如果验证通过，提交数据
       const productRow = configData.find((row) => row[0] === productName);
       const submittedData = {
         productName,
@@ -451,6 +482,8 @@ document.addEventListener("DOMContentLoaded", () => {
         lineNumber,
         palletNumber,
         boxCount,
+        hcode,
+        ubd,
       };
 
       try {
@@ -470,6 +503,63 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Error submitting data:", error);
       }
     });
+
+    // 解析 HCODE 为日期
+    function parseHCODE(hcode) {
+      const day = parseInt(hcode.slice(1, 3), 10); // 提取 DD
+      const month = parseInt(hcode.slice(3, 5), 10) - 1; // 提取 MM（月份从 0 开始）
+      const currentYear = new Date().getFullYear();
+      return new Date(currentYear, month, day);
+    }
+
+    // 解析 UBD 为日期
+    function parseUBD(ubd) {
+      const [day, monthStr] = ubd.split(" ");
+      const month = new Date(Date.parse(`01 ${monthStr} 2000`)).getMonth(); // 将 MMM 转换为月份
+      const currentYear = new Date().getFullYear();
+      return new Date(currentYear, month, parseInt(day, 10));
+    }
+
+    // 显示确认提示框
+    function showConfirmationModal(message) {
+      const modal = document.createElement("div");
+      modal.style.position = "fixed";
+      modal.style.top = "50%";
+      modal.style.left = "50%";
+      modal.style.transform = "translate(-50%, -50%)";
+      modal.style.backgroundColor = "#ffcccc"; // 浅红色背景
+      modal.style.padding = "20px";
+      modal.style.borderRadius = "10px";
+      modal.style.boxShadow = "0 2px 10px rgba(0, 0, 0, 0.1)";
+      modal.style.textAlign = "center";
+      modal.style.zIndex = "1000";
+      modal.innerHTML = `
+        <p>${message}</p>
+        <button id="confirmButton" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Confirm</button>
+        <button id="cancelButton" style="background-color: #f44336; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">Cancel</button>
+      `;
+
+      document.body.appendChild(modal);
+
+      // 添加闪烁效果
+      let isRed = true;
+      const interval = setInterval(() => {
+        modal.style.backgroundColor = isRed ? "#ffcccc" : "#ff9999";
+        isRed = !isRed;
+      }, 500);
+
+      // 确认按钮点击事件
+      document.getElementById("confirmButton").addEventListener("click", () => {
+        clearInterval(interval);
+        document.body.removeChild(modal);
+      });
+
+      // 取消按钮点击事件
+      document.getElementById("cancelButton").addEventListener("click", () => {
+        clearInterval(interval);
+        document.body.removeChild(modal);
+      });
+    }
 
 
 
