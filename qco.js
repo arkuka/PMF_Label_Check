@@ -477,8 +477,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // 检查天数差是否等于保质期天数
       if (daysDifference !== shelfLifeDays) {
-        // 如果不等于，显示提示框
-        showConfirmationModal(`The difference between HCODE and UBD is ${daysDifference} days, which does not match the shelf life of ${shelfLifeDays} days. Please confirm HCODE and UBD.`);
+        // 如果不等于，显示 modal3 提示框
+        showModal3(`The difference between HCODE and UBD is ${daysDifference} days, which does not match the shelf life of ${shelfLifeDays} days. Please confirm HCODE and UBD.`);
         return;
       }
 
@@ -512,6 +512,24 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Error submitting data:", error);
       }
     });
+
+    // 显示 modal3 提示框
+    function showModal3(message) {
+      const modal3 = document.getElementById("modal3");
+      const modal3Message = document.getElementById("modal3Message");
+
+      // 设置提示信息
+      modal3Message.textContent = message;
+
+      // 显示 modal3
+      modal3.style.display = "flex";
+
+      // Confirm 按钮点击事件
+      document.getElementById("modal3ConfirmButton").addEventListener("click", () => {
+        clearInterval(interval);
+        modal3.style.display = "none";
+      });
+    }
 
     // 解析 HCODE 为日期
     function parseHCODE(hcode) {
