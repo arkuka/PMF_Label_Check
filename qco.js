@@ -457,7 +457,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 检查天数差是否等于保质期天数
     if (daysDifference !== shelfLifeDays) {
 
-      msgbox(`The difference between HCODE and UBD is ${daysDifference} days, which does not match the shelf life of ${shelfLifeDays} days. Please confirm HCODE and UBD.`);
+      alert(`The difference between HCODE and UBD is ${daysDifference} days, which does not match the shelf life of ${shelfLifeDays} days. Please confirm HCODE and UBD.`);
       return;
     }
 
