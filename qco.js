@@ -443,6 +443,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // 获取 modal2 的消息区域
+    const modal2Message = document.getElementById("modal2Message");
+
     // 验证 HCODE 格式
     const hcodeRegex = /^H\d{4}$/; // H 开头，后跟 4 位数字
     if (!hcodeRegex.test(hcode)) {
@@ -459,16 +462,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // 获取产品的保质期天数（假设保质期天数为 30 天）
-    // const shelfLifeDays = 30; // 这里需要根据实际产品获取保质期天数
-
     // 计算 HCODE 到 UBD 的天数
     const hcodeDate = parseHCODE(hcode); // 解析 HCODE 为日期
     const ubdDate = parseUBD(ubd); // 解析 UBD 为日期
     const daysDifference = Math.floor((ubdDate - hcodeDate) / (1000 * 60 * 60 * 24)); // 计算天数差
-
-    // 获取 modal2 的消息区域
-    const modal2Message = document.getElementById("modal2Message");
 
     // 检查天数差是否等于保质期天数
     if (daysDifference !== shelfLifeDays) {
