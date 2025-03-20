@@ -302,7 +302,7 @@ const handleInputChange = (field, value, event) => {
       console.log("handleInputChange(); field=",field)
       console.log("handleInputChange(); value=",value)
       
-      if(field=="box label"){  
+      if(field=="carton label"){  
         // 检查 scannedCode 的前五位是否为 '01193'      
         if (processedScannedCode.startsWith('01193')) {
             processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
