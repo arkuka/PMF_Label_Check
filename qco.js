@@ -32,26 +32,7 @@ const validateScan = (field, scannedCode) => {
     const fieldIndex = headers.indexOf(field);
     const correctCode = productRow[fieldIndex];
 
-    console.log("fieldIndex=",fieldIndex)
-    console.log("scannedCode=",scannedCode)
-  
-    let processedScannedCode = scannedCode.trim();
-  
-    if(fieldIndex==4){  
-      // 检查 scannedCode 的前五位是否为 '01193'      
-      if (processedScannedCode.startsWith('01193')) {
-          processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
-          console.log("processedScannedCode=",processedScannedCode)
-      }
-    }
-    else if (fieldIndex==5 && processedScannedCode.includes("---")) {
-        const [codePart, hCodePart] = processedScannedCode.split("---");
-        
-        processedScannedCode = codePart.trim(); // 只保留 "---" 前面的部分
-        console.log("processedScannedCode=",processedScannedCode)
-        scannedHCode = hCodePart.trim(); // 将 "---" 后面的部分存储到全局变量 scannedHCode
-        console.log("scannedHCode=",scannedHCode)
-    }
+    const processedScannedCode = processScannedCode(fieldValue, fieldIndex);
   
     const isMatch = processedScannedCode === correctCode.trim();
     checkSubmitAvailability(isMatch);
@@ -71,24 +52,9 @@ const allFieldsValid = () => {
     const fieldValue = fields[field.toLowerCase()] || "";
     const correctCode = productRow[fieldIndex];
 
-    let processedScannedCode = fieldValue.trim();
+    const processedScannedCode = processScannedCode(fieldValue, fieldIndex);
     
-    if(fieldIndex==4){  
-      // 检查 scannedCode 的前五位是否为 '01193'      
-      if (processedScannedCode.startsWith('01193')) {
-          processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
-          console.log("processedScannedCode=",processedScannedCode)
-      }
-    }
-    else if (fieldIndex==5 && processedScannedCode.includes("---")) { //检查是否包括 ---
-        const [codePart, hCodePart] = processedScannedCode.split("---");
-        
-        processedScannedCode = codePart.trim(); // 只保留 "---" 前面的部分
-        console.log("processedScannedCode=",processedScannedCode)
-        scannedHCode = hCodePart.trim(); // 将 "---" 后面的部分存储到全局变量 scannedHCode
-        console.log("scannedHCode=",scannedHCode)
-    }
-    return processedScannedCode.trim() === correctCode;
+    return processedScannedCode === correctCode;
   });
 };
 
@@ -120,16 +86,23 @@ const isFieldDisabled = (field) => {
 };
 
 // 针对两种特殊情况，对输入的信息进行处理
-const processScannedCode = (fieldValue, fieldIndex) => {
+const processScannedCode = (fieldValue, fieldOrIndex) => {
   let processedScannedCode = fieldValue.trim();
 
-  if (fieldIndex == 4) {
+  // 判断传入的是 fieldIndex（数字）还是 field（字符串）
+  if (
+    (typeof fieldOrIndex === "number" && fieldOrIndex == 4) ||
+    (typeof fieldOrIndex === "string" && fieldOrIndex == "carton label")
+  ) {
     // 检查 scannedCode 的前五位是否为 '01193'
     if (processedScannedCode.startsWith('01193')) {
       processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
       console.log("processedScannedCode =", processedScannedCode);
     }
-  } else if (fieldIndex == 5 && processedScannedCode.includes("---")) {
+  } else if (
+    (typeof fieldOrIndex === "number" && fieldOrIndex == 5) ||
+    (typeof fieldOrIndex === "string" && fieldOrIndex == "pallet label")
+  ) {
     // 检查是否包含 "---"
     const [codePart, hCodePart] = processedScannedCode.split("---");
     processedScannedCode = codePart.trim(); // 只保留 "---" 前面的部分
@@ -298,22 +271,8 @@ const handleInputChange = (field, value, event) => {
 
       console.log("handleInputChange(); field=",field)
       console.log("handleInputChange(); value=",value)
-      
-      if(field=="carton label"){  
-        // 检查 scannedCode 的前五位是否为 '01193'      
-        if (processedScannedCode.startsWith('01193')) {
-            processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
-            console.log("handleInputChange(); processedScannedCode=",processedScannedCode)
-        }
-      }
-      else if (field=="pallet label" && processedScannedCode.includes("---")) { //检查是否包括 ---
-          const [codePart, hCodePart] = processedScannedCode.split("---");
-          
-          processedScannedCode = codePart.trim(); // 只保留 "---" 前面的部分
-          console.log("handleInputChange(); processedScannedCode=",processedScannedCode)
-          scannedHCode = hCodePart.trim(); // 将 "---" 后面的部分存储到全局变量 scannedHCode
-          console.log("handleInputChange(); scannedHCode=",scannedHCode)
-      }
+
+      processedScannedCode = processScannedCode(value, field);
       
       fields[field] = processedScannedCode;
     
