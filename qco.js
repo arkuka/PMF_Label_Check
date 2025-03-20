@@ -71,7 +71,6 @@ const allFieldsValid = () => {
     const fieldValue = fields[field.toLowerCase()] || "";
     const correctCode = productRow[fieldIndex];
 
-    // 检查 fieldValue 的前五位是否为 '01193'
     let processedScannedCode = fieldValue.trim();
     
     if(fieldIndex==4){  
@@ -81,7 +80,7 @@ const allFieldsValid = () => {
           console.log("processedScannedCode=",processedScannedCode)
       }
     }
-    else if (fieldIndex==5 && processedScannedCode.includes("---")) {
+    else if (fieldIndex==5 && processedScannedCode.includes("---")) { //检查是否包括 ---
         const [codePart, hCodePart] = processedScannedCode.split("---");
         
         processedScannedCode = codePart.trim(); // 只保留 "---" 前面的部分
@@ -132,7 +131,6 @@ const getInputBackgroundColor = (field) => {
 
   const correctCode = productRow[fieldIndex];
 
-  // 检查 fieldValue 的前五位是否为 '01193'
   let processedScannedCode = fieldValue.trim();
   
   if(fieldIndex==4){  
@@ -142,7 +140,7 @@ const getInputBackgroundColor = (field) => {
         console.log("processedScannedCode=",processedScannedCode)
     }
   }
-  else if (fieldIndex==5 && processedScannedCode.includes("---")) {
+  else if (fieldIndex==5 && processedScannedCode.includes("---")) { //检查是否包括 ---
       const [codePart, hCodePart] = processedScannedCode.split("---");
       
       processedScannedCode = codePart.trim(); // 只保留 "---" 前面的部分
@@ -162,7 +160,6 @@ const getFieldIcon = (field) => {
   const fieldIndex = headers.findIndex((header) => header.toLowerCase() === field);
   const correctCode = productRow ? productRow[fieldIndex] : "";
 
-  // 检查 fieldValue 的前五位是否为 '01193'
   let processedScannedCode = fieldValue.trim();
   
   if(fieldIndex==4){  
@@ -172,7 +169,7 @@ const getFieldIcon = (field) => {
         console.log("processedScannedCode=",processedScannedCode)
     }
   }
-  else if (fieldIndex==5 && processedScannedCode.includes("---")) {
+  else if (fieldIndex==5 && processedScannedCode.includes("---")) { //检查是否包括 ---
       const [codePart, hCodePart] = processedScannedCode.split("---");
       
       processedScannedCode = codePart.trim(); // 只保留 "---" 前面的部分
@@ -299,13 +296,35 @@ const handleInputChange = (field, value, event) => {
      value = value.toUpperCase()
      value = value.trim()
     if (event.key === "Enter") {
-      fields[field] = value;
+      
+      let processedScannedCode = value.trim();
+
+      console.log("field=",field)
+      console.log("value=",value)
+      
+      if(field=="boxlabel"){  
+        // 检查 scannedCode 的前五位是否为 '01193'      
+        if (processedScannedCode.startsWith('01193')) {
+            processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
+            console.log("processedScannedCode=",processedScannedCode)
+        }
+      }
+      else if (field=="palletlabel" && processedScannedCode.includes("---")) { //检查是否包括 ---
+          const [codePart, hCodePart] = processedScannedCode.split("---");
+          
+          processedScannedCode = codePart.trim(); // 只保留 "---" 前面的部分
+          console.log("processedScannedCode=",processedScannedCode)
+          scannedHCode = hCodePart.trim(); // 将 "---" 后面的部分存储到全局变量 scannedHCode
+          console.log("scannedHCode=",scannedHCode)
+      }
+      
+      fields[field] = processedScannedCode;
     
       if (!productName && value.trim() !== "") {
         // 查找是否有匹配的产品字段信息
           const matchingProduct = configData.find((row) => {
           const fieldIndex = headers.indexOf(field); // 获取当前字段的索引
-          return row[fieldIndex] === value.trim(); // 检查当前字段的值是否匹配
+          return row[fieldIndex] === processedScannedCode.trim(); // 检查当前字段的值是否匹配
         });
     
         if (matchingProduct && !prompted) {
@@ -313,8 +332,8 @@ const handleInputChange = (field, value, event) => {
           possibleProduct = matchingProduct[0];
           prompted = true;
           showModal = true;
-          scannedBarcode = value.trim(); // 保存条码信息
-          barcode = value;
+          scannedBarcode = processedScannedCode.trim(); // 保存条码信息
+          barcode = processedScannedCode;
           //modalMessage.textContent = `Do you want to start processing product: ${possibleProduct}?`;
           //modal.style.display = "flex";
           showModalWithButtons(`Do you want to start processing product: ${possibleProduct}?`, true, "");
@@ -325,7 +344,7 @@ const handleInputChange = (field, value, event) => {
         }
       } else {
         // 如果 productName 已存在，则验证扫描信息
-        validateScan(field, value);
+        validateScan(field, processedScannedCode);
       }
 
     //  validateScan(field, value);
