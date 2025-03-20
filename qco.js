@@ -438,8 +438,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const ubd = document.getElementById("ubd").value;
 
     // 检查所有字段是否已填写
-    if (!lineNumber || !palletNumber || !boxCount || !hcode || !ubd) {
-      alert("Please fill in all fields.");
+    if (!lineNumber || !palletNumber || !boxCount || !hcode || !ubd) {      
+      modal2Message.textContent = "Please fill in all fields.";
+      modal2Message.style.display = "block";
       return;
     }
 
