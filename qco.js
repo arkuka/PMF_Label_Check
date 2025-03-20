@@ -259,7 +259,7 @@ const handleInputChange = (field, value, event) => {
         validateScan(field, value);
       }
 
-    //validateScan(field, value);
+    //  validateScan(field, value);
     
     renderInputFields();
 
@@ -267,29 +267,29 @@ const handleInputChange = (field, value, event) => {
     currentField = field;
 
     // 设置焦点到下一个可用的输入框
-    const currentInput = event.target;
-    console.log("handleInputChange, currentInput=", currentInput);
+    // const currentInput = event.target;
+    // console.log("handleInputChange, currentInput=", currentInput);
 
     // 确保选择器匹配所有输入框
-    const allInputs = Array.from(document.querySelectorAll("#inputFields input[type='text']:not([disabled])"));
+    // const allInputs = Array.from(document.querySelectorAll("#inputFields input[type='text']:not([disabled])"));
 
-    for (let ci = 0; ci < allInputs.length; ci++) {
-      if (currentInput.id === allInputs[ci].id) {
-          currentIndex = ci;
-          break;
-      }
-    }
+    // for (let ci = 0; ci < allInputs.length; ci++) {
+    //    if (currentInput.id === allInputs[ci].id) {
+    //      currentIndex = ci;
+    //      break;
+    //    }
+    //  }
 
-    if (currentIndex !== -1) {
-      const nextAvailableTextFieldIndex = currentIndex + 1;
-      console.log("handleInputChange, nextAvailableTextFieldIndex=", nextAvailableTextFieldIndex);
+    // if (currentIndex !== -1) {
+    //      const nextAvailableTextFieldIndex = currentIndex + 1;
+    //      console.log("handleInputChange, nextAvailableTextFieldIndex=", nextAvailableTextFieldIndex);
 
-      if (nextAvailableTextFieldIndex < allInputs.length) {
-        allInputs[nextAvailableTextFieldIndex].focus();
-      }
-    } else {
-      console.error("Current input not found in allInputs array.");
-    }
+    //      if (nextAvailableTextFieldIndex < allInputs.length) {
+    //          allInputs[nextAvailableTextFieldIndex].focus();
+    //        }
+    //  } else {
+    //      console.error("Current input not found in allInputs array.");
+    //  }
   }
 };
 
