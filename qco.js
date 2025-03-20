@@ -35,7 +35,7 @@ const validateScan = (field, scannedCode) => {
     console.log("fieldIndex=",fieldIndex)
     console.log("scannedCode=",scannedCode)
   
-    if(fieldIndex==3){  
+    if(fieldIndex==4){  
       // 检查 scannedCode 的前五位是否为 '01193'
       let processedScannedCode = scannedCode.trim();
       if (processedScannedCode.startsWith('01193')) {
@@ -43,7 +43,7 @@ const validateScan = (field, scannedCode) => {
           console.log("processedScannedCode=",processedScannedCode)
       }
     }
-    else if (fieldIndex==4 && processedScannedCode.includes("---")) {
+    else if (fieldIndex==5 && processedScannedCode.includes("---")) {
         const [codePart, hCodePart] = processedScannedCode.split("---");
         
         processedScannedCode = codePart.trim(); // 只保留 "---" 前面的部分
