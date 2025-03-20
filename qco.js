@@ -437,16 +437,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const hcode = document.getElementById("hcode").value;
     const ubd = document.getElementById("ubd").value;
 
+    // 获取 modal2 的消息区域
+    const modal2Message = document.getElementById("modal2Message");
+
     // 检查所有字段是否已填写
     if (!lineNumber || !palletNumber || !boxCount || !hcode || !ubd) {      
       modal2Message.textContent = "Please fill in all fields.";
       modal2Message.style.display = "block";
       return;
     }
-
-    // 获取 modal2 的消息区域
-    const modal2Message = document.getElementById("modal2Message");
-
+    
     // 验证 HCODE 格式
     const hcodeRegex = /^H\d{4}$/; // H 开头，后跟 4 位数字
     if (!hcodeRegex.test(hcode)) {
