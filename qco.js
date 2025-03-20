@@ -20,6 +20,7 @@ let possibleProduct = "";
 let barcode = "";
 let scannedBarcode = "";
 let currentField = "";  // 用于记录当前输入的字段
+let sannedHCode = ""
 
 // 全局函数
 const validateScan = (field, scannedCode) => {
@@ -30,11 +31,19 @@ const validateScan = (field, scannedCode) => {
   
     const fieldIndex = headers.indexOf(field);
     const correctCode = productRow[fieldIndex];
-  
-    // 检查 scannedCode 的前五位是否为 '01193'
-    let processedScannedCode = scannedCode.trim();
-    if (processedScannedCode.startsWith('01193')) {
-        processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
+
+    
+    if(fieldIndex==3){  
+      // 检查 scannedCode 的前五位是否为 '01193'
+      let processedScannedCode = scannedCode.trim();
+      if (processedScannedCode.startsWith('01193')) {
+          processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
+      }
+    }
+    else if (fieldIndex==4 && processedScannedCode.includes("---")) {
+        const [codePart, hCodePart] = processedScannedCode.split("---");
+        processedScannedCode = codePart.trim(); // 只保留 "---" 前面的部分
+        scannedHCode = hCodePart.trim(); // 将 "---" 后面的部分存储到全局变量 scannedHCode
     }
   
     const isMatch = processedScannedCode === correctCode.trim();
@@ -166,6 +175,8 @@ const resetForm = () => {
   };
 
   shelfLifeDays = 0; // 保质期天数
+  scannedHCode = ""
+  scannedBarcode = ""
 
   isSubmitEnabled = false;
   renderInputFields();  
@@ -443,6 +454,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // 检查所有字段是否已填写
     if (!lineNumber || !palletNumber || !boxCount || !hcode || !ubd) {      
       modal2Message.textContent = "Please fill in all fields.";
+      modal2Message.style.display = "block";
+      return;
+    }
+    
+    if (scannedHCode !== hcode.toUpperCase()) {
+      modal2Message.textContent = "Label hcode does not match the hcode on the pallet label. Please double check it!";
       modal2Message.style.display = "block";
       return;
     }
