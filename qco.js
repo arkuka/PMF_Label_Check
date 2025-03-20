@@ -35,9 +35,10 @@ const validateScan = (field, scannedCode) => {
     console.log("fieldIndex=",fieldIndex)
     console.log("scannedCode=",scannedCode)
   
+    let processedScannedCode = scannedCode.trim();
+  
     if(fieldIndex==4){  
-      // 检查 scannedCode 的前五位是否为 '01193'
-      let processedScannedCode = scannedCode.trim();
+      // 检查 scannedCode 的前五位是否为 '01193'      
       if (processedScannedCode.startsWith('01193')) {
           processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
           console.log("processedScannedCode=",processedScannedCode)
