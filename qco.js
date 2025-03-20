@@ -131,7 +131,27 @@ const getInputBackgroundColor = (field) => {
   if (fieldValue === "") return "#F0B9B9";
 
   const correctCode = productRow[fieldIndex];
-  return fieldValue === correctCode ? "#d3f8d3" : "#F0B9B9";
+
+  // 检查 fieldValue 的前五位是否为 '01193'
+  let processedScannedCode = fieldValue.trim();
+  
+  if(fieldIndex==4){  
+    // 检查 scannedCode 的前五位是否为 '01193'      
+    if (processedScannedCode.startsWith('01193')) {
+        processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
+        console.log("processedScannedCode=",processedScannedCode)
+    }
+  }
+  else if (fieldIndex==5 && processedScannedCode.includes("---")) {
+      const [codePart, hCodePart] = processedScannedCode.split("---");
+      
+      processedScannedCode = codePart.trim(); // 只保留 "---" 前面的部分
+      console.log("processedScannedCode=",processedScannedCode)
+      scannedHCode = hCodePart.trim(); // 将 "---" 后面的部分存储到全局变量 scannedHCode
+      console.log("scannedHCode=",scannedHCode)
+  }
+  
+  return processedScannedCode === correctCode ? "#d3f8d3" : "#F0B9B9";
 };
 
 const getFieldIcon = (field) => {
