@@ -299,23 +299,23 @@ const handleInputChange = (field, value, event) => {
       
       let processedScannedCode = value.trim();
 
-      console.log("field=",field)
-      console.log("value=",value)
+      console.log("handleInputChange(); field=",field)
+      console.log("handleInputChange(); value=",value)
       
-      if(field=="boxlabel"){  
+      if(field=="box label"){  
         // 检查 scannedCode 的前五位是否为 '01193'      
         if (processedScannedCode.startsWith('01193')) {
             processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
-            console.log("processedScannedCode=",processedScannedCode)
+            console.log("handleInputChange(); processedScannedCode=",processedScannedCode)
         }
       }
-      else if (field=="palletlabel" && processedScannedCode.includes("---")) { //检查是否包括 ---
+      else if (field=="pallet label" && processedScannedCode.includes("---")) { //检查是否包括 ---
           const [codePart, hCodePart] = processedScannedCode.split("---");
           
           processedScannedCode = codePart.trim(); // 只保留 "---" 前面的部分
-          console.log("processedScannedCode=",processedScannedCode)
+          console.log("handleInputChange(); processedScannedCode=",processedScannedCode)
           scannedHCode = hCodePart.trim(); // 将 "---" 后面的部分存储到全局变量 scannedHCode
-          console.log("scannedHCode=",scannedHCode)
+          console.log("handleInputChange(); scannedHCode=",scannedHCode)
       }
       
       fields[field] = processedScannedCode;
@@ -324,7 +324,7 @@ const handleInputChange = (field, value, event) => {
         // 查找是否有匹配的产品字段信息
           const matchingProduct = configData.find((row) => {
           const fieldIndex = headers.indexOf(field); // 获取当前字段的索引
-          return row[fieldIndex] === processedScannedCode.trim(); // 检查当前字段的值是否匹配
+          return row[fieldIndex] === processedScannedCode; // 检查当前字段的值是否匹配
         });
     
         if (matchingProduct && !prompted) {
@@ -332,7 +332,7 @@ const handleInputChange = (field, value, event) => {
           possibleProduct = matchingProduct[0];
           prompted = true;
           showModal = true;
-          scannedBarcode = processedScannedCode.trim(); // 保存条码信息
+          scannedBarcode = processedScannedCode; // 保存条码信息
           barcode = processedScannedCode;
           //modalMessage.textContent = `Do you want to start processing product: ${possibleProduct}?`;
           //modal.style.display = "flex";
