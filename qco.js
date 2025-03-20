@@ -32,18 +32,24 @@ const validateScan = (field, scannedCode) => {
     const fieldIndex = headers.indexOf(field);
     const correctCode = productRow[fieldIndex];
 
-    
+    console.log("fieldIndex=",fieldIndex)
+    console.log("scannedCode=",scannedCode)
+  
     if(fieldIndex==3){  
       // 检查 scannedCode 的前五位是否为 '01193'
       let processedScannedCode = scannedCode.trim();
       if (processedScannedCode.startsWith('01193')) {
           processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
+          console.log("processedScannedCode=",processedScannedCode)
       }
     }
     else if (fieldIndex==4 && processedScannedCode.includes("---")) {
         const [codePart, hCodePart] = processedScannedCode.split("---");
+        
         processedScannedCode = codePart.trim(); // 只保留 "---" 前面的部分
+        console.log("processedScannedCode=",processedScannedCode)
         scannedHCode = hCodePart.trim(); // 将 "---" 后面的部分存储到全局变量 scannedHCode
+        console.log("scannedHCode=",scannedHCode)
     }
   
     const isMatch = processedScannedCode === correctCode.trim();
