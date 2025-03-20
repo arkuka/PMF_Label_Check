@@ -119,66 +119,63 @@ const isFieldDisabled = (field) => {
   return !productRow || !productRow[fieldIndex];
 };
 
+// 针对两种特殊情况，对输入的信息进行处理
+const processScannedCode = (fieldValue, fieldIndex) => {
+  let processedScannedCode = fieldValue.trim();
+
+  if (fieldIndex == 4) {
+    // 检查 scannedCode 的前五位是否为 '01193'
+    if (processedScannedCode.startsWith('01193')) {
+      processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
+      console.log("processedScannedCode =", processedScannedCode);
+    }
+  } else if (fieldIndex == 5 && processedScannedCode.includes("---")) {
+    // 检查是否包含 "---"
+    const [codePart, hCodePart] = processedScannedCode.split("---");
+    processedScannedCode = codePart.trim(); // 只保留 "---" 前面的部分
+    console.log("processedScannedCode =", processedScannedCode);
+
+    // 将 "---" 后面的部分存储到全局变量 scannedHCode
+    if (hCodePart !== undefined) {
+      window.scannedHCode = hCodePart.trim();
+      console.log("scannedHCode =", window.scannedHCode);
+    }
+  }
+
+  return processedScannedCode;
+};
+
+// 获取输入框背景颜色
 const getInputBackgroundColor = (field) => {
   if (!configData || !productName) return "#FFFFFF";
 
   const fieldValue = fields[field] || "";
   const productRow = configData.find((row) => row[0] === productName);
-  const fieldIndex = headers.findIndex((header) => header.toLowerCase() === field);
+  const fieldIndex = headers.findIndex((header) => header.toLowerCase() === field.toLowerCase());
 
   if (fieldIndex === -1 || !productRow || !productRow[fieldIndex]) return "#DDDDDD";
   if (fieldValue === "") return "#F0B9B9";
 
   const correctCode = productRow[fieldIndex];
+  const processedScannedCode = processScannedCode(fieldValue, fieldIndex);
 
-  let processedScannedCode = fieldValue.trim();
-  
-  if(fieldIndex==4){  
-    // 检查 scannedCode 的前五位是否为 '01193'      
-    if (processedScannedCode.startsWith('01193')) {
-        processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
-        console.log("processedScannedCode=",processedScannedCode)
-    }
-  }
-  else if (fieldIndex==5 && processedScannedCode.includes("---")) { //检查是否包括 ---
-      const [codePart, hCodePart] = processedScannedCode.split("---");
-      
-      processedScannedCode = codePart.trim(); // 只保留 "---" 前面的部分
-      console.log("processedScannedCode=",processedScannedCode)
-      scannedHCode = hCodePart.trim(); // 将 "---" 后面的部分存储到全局变量 scannedHCode
-      console.log("scannedHCode=",scannedHCode)
-  }
-  
   return processedScannedCode === correctCode ? "#d3f8d3" : "#F0B9B9";
 };
 
+// 获取字段图标
 const getFieldIcon = (field) => {
   const fieldValue = fields[field] || "";
   if (fieldValue === "") return "";
 
   const productRow = configData.find((row) => row[0] === productName);
-  const fieldIndex = headers.findIndex((header) => header.toLowerCase() === field);
+  const fieldIndex = headers.findIndex((header) => header.toLowerCase() === field.toLowerCase());
   const correctCode = productRow ? productRow[fieldIndex] : "";
 
-  let processedScannedCode = fieldValue.trim();
-  
-  if(fieldIndex==4){  
-    // 检查 scannedCode 的前五位是否为 '01193'      
-    if (processedScannedCode.startsWith('01193')) {
-        processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
-        console.log("processedScannedCode=",processedScannedCode)
-    }
-  }
-  else if (fieldIndex==5 && processedScannedCode.includes("---")) { //检查是否包括 ---
-      const [codePart, hCodePart] = processedScannedCode.split("---");
-      
-      processedScannedCode = codePart.trim(); // 只保留 "---" 前面的部分
-      console.log("processedScannedCode=",processedScannedCode)
-      scannedHCode = hCodePart.trim(); // 将 "---" 后面的部分存储到全局变量 scannedHCode
-      console.log("scannedHCode=",scannedHCode)
-  }
-  
-  return processedScannedCode === correctCode ? '<span style="color: green">✅</span>' : '<span style="color: red">❌</span>';
+  const processedScannedCode = processScannedCode(fieldValue, fieldIndex);
+
+  return processedScannedCode === correctCode
+    ? '<span style="color: green">✅</span>'
+    : '<span style="color: red">❌</span>';
 };
 
 const renderInputFields = () => {
