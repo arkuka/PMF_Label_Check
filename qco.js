@@ -32,7 +32,7 @@ const validateScan = (field, scannedCode) => {
     const fieldIndex = headers.indexOf(field);
     const correctCode = productRow[fieldIndex];
 
-    const processedScannedCode = processScannedCode(fieldValue, fieldIndex);
+    const processedScannedCode = processScannedCode(scannedCode, fieldIndex);
   
     const isMatch = processedScannedCode === correctCode.trim();
     checkSubmitAvailability(isMatch);
