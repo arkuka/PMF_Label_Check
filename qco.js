@@ -160,8 +160,8 @@ const getFieldIcon = (field) => {
       scannedHCode = hCodePart.trim(); // 将 "---" 后面的部分存储到全局变量 scannedHCode
       console.log("scannedHCode=",scannedHCode)
   }
-  fieldValue = processedScannedCode
-  return fieldValue === correctCode ? '<span style="color: green">✅</span>' : '<span style="color: red">❌</span>';
+  
+  return processedScannedCode === correctCode ? '<span style="color: green">✅</span>' : '<span style="color: red">❌</span>';
 };
 
 const renderInputFields = () => {
