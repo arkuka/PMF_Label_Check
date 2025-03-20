@@ -73,10 +73,22 @@ const allFieldsValid = () => {
 
     // 检查 fieldValue 的前五位是否为 '01193'
     let processedScannedCode = fieldValue.trim();
-    if (processedScannedCode.startsWith('01193')) {
-      processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
+    
+    if(fieldIndex==4){  
+      // 检查 scannedCode 的前五位是否为 '01193'      
+      if (processedScannedCode.startsWith('01193')) {
+          processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
+          console.log("processedScannedCode=",processedScannedCode)
+      }
     }
-
+    else if (fieldIndex==5 && processedScannedCode.includes("---")) {
+        const [codePart, hCodePart] = processedScannedCode.split("---");
+        
+        processedScannedCode = codePart.trim(); // 只保留 "---" 前面的部分
+        console.log("processedScannedCode=",processedScannedCode)
+        scannedHCode = hCodePart.trim(); // 将 "---" 后面的部分存储到全局变量 scannedHCode
+        console.log("scannedHCode=",scannedHCode)
+    }
     return processedScannedCode.trim() === correctCode;
   });
 };
@@ -130,6 +142,25 @@ const getFieldIcon = (field) => {
   const fieldIndex = headers.findIndex((header) => header.toLowerCase() === field);
   const correctCode = productRow ? productRow[fieldIndex] : "";
 
+  // 检查 fieldValue 的前五位是否为 '01193'
+  let processedScannedCode = fieldValue.trim();
+  
+  if(fieldIndex==4){  
+    // 检查 scannedCode 的前五位是否为 '01193'      
+    if (processedScannedCode.startsWith('01193')) {
+        processedScannedCode = processedScannedCode.slice(2); // 去掉前两位 '01'
+        console.log("processedScannedCode=",processedScannedCode)
+    }
+  }
+  else if (fieldIndex==5 && processedScannedCode.includes("---")) {
+      const [codePart, hCodePart] = processedScannedCode.split("---");
+      
+      processedScannedCode = codePart.trim(); // 只保留 "---" 前面的部分
+      console.log("processedScannedCode=",processedScannedCode)
+      scannedHCode = hCodePart.trim(); // 将 "---" 后面的部分存储到全局变量 scannedHCode
+      console.log("scannedHCode=",scannedHCode)
+  }
+  fieldValue = processedScannedCode
   return fieldValue === correctCode ? '<span style="color: green">✅</span>' : '<span style="color: red">❌</span>';
 };
 
